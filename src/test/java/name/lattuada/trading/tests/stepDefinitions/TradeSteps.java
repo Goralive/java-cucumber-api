@@ -1,7 +1,6 @@
-package name.lattuada.trading.tests;
+package name.lattuada.trading.tests.stepDefinitions;
 
 import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import name.lattuada.trading.model.EOrderType;
@@ -24,15 +23,15 @@ import static org.junit.Assert.assertTrue;
 
 public class TradeSteps {
 
-    private static final Logger logger = LoggerFactory.getLogger(CucumberTest.class);
-    private final RestUtility restUtility;
+    private static final Logger logger = LoggerFactory.getLogger(name.lattuada.trading.tests.CucumberTest.class);
+    private final name.lattuada.trading.tests.stepDefinitions.RestUtility restUtility;
     private final Map<String, SecurityDTO> securityMap;
     private final Map<String, UserDTO> userMap;
     private OrderDTO buyOrder;
     private OrderDTO sellOrder;
 
     TradeSteps() {
-        restUtility = new RestUtility();
+        restUtility = new name.lattuada.trading.tests.stepDefinitions.RestUtility();
         securityMap = new HashMap<>();
         userMap = new HashMap<>();
     }
