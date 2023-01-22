@@ -1,32 +1,29 @@
-package name.lattuada.trading.tests.stepDefinitions;
+package name.lattuada.trading.tests.steps;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.spring.CucumberContextConfiguration;
 import name.lattuada.trading.model.EOrderType;
 import name.lattuada.trading.model.dto.OrderDTO;
 import name.lattuada.trading.model.dto.SecurityDTO;
 import name.lattuada.trading.model.dto.TradeDTO;
 import name.lattuada.trading.model.dto.UserDTO;
-import name.lattuada.trading.tests.CucumberTest;
+import name.lattuada.trading.tests.runner.CucumberTest;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-@SpringBootTest(classes = CucumberTest.class)
-@CucumberContextConfiguration
 public class TradeSteps {
 
     private static final Logger logger = LoggerFactory.getLogger(CucumberTest.class);
@@ -111,8 +108,25 @@ public class TradeSteps {
                              String securityName,
                              Double price,
                              Long quantity) {
-        // TODO: implement create oder function
-        logger.info("To be implemented! ... Order created: {}");
-    }
+        OrderDTO orderDTO = new OrderDTO();
+        UUID userId = userMap.get(userName).getId();
+        UUID securityId = securityMap.get(securityName).getId();
 
+        orderDTO.setUserId(userId);
+        orderDTO.setType(orderType);
+        orderDTO.setSecurityId(securityId);
+        orderDTO.setPrice(price);
+        orderDTO.setQuantity(quantity);
+
+        OrderDTO orderReturned = restUtility.post("api/orders",
+                orderDTO,
+                OrderDTO.class);
+
+        switch (orderType) {
+            case BUY -> buyOrder = orderReturned;
+            case SELL -> sellOrder = orderReturned;
+        }
+
+        logger.info("Order created: {}", orderReturned);
+    }
 }
