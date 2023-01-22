@@ -1,4 +1,4 @@
-package name.lattuada.trading.tests;
+package name.lattuada.trading.tests.stepDefinitions;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
