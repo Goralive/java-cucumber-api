@@ -1,16 +1,20 @@
 package name.lattuada.trading.tests.stepDefinitions;
 
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.spring.CucumberContextConfiguration;
 import name.lattuada.trading.model.EOrderType;
 import name.lattuada.trading.model.dto.OrderDTO;
 import name.lattuada.trading.model.dto.SecurityDTO;
 import name.lattuada.trading.model.dto.TradeDTO;
 import name.lattuada.trading.model.dto.UserDTO;
+import name.lattuada.trading.tests.CucumberTest;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.HashMap;
@@ -21,24 +25,30 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+@SpringBootTest(classes = CucumberTest.class)
+@CucumberContextConfiguration
 public class TradeSteps {
 
-    private static final Logger logger = LoggerFactory.getLogger(name.lattuada.trading.tests.CucumberTest.class);
-    private final name.lattuada.trading.tests.stepDefinitions.RestUtility restUtility;
+    private static final Logger logger = LoggerFactory.getLogger(CucumberTest.class);
+    private final RestUtility restUtility;
     private final Map<String, SecurityDTO> securityMap;
     private final Map<String, UserDTO> userMap;
     private OrderDTO buyOrder;
     private OrderDTO sellOrder;
 
     TradeSteps() {
-        restUtility = new name.lattuada.trading.tests.stepDefinitions.RestUtility();
+        restUtility = new RestUtility();
         securityMap = new HashMap<>();
         userMap = new HashMap<>();
     }
 
-    // TODO implement: Given for "one security {string} and two users {string} and {string} exist"
+    @Given("one security {string} and two users {string} and {string} exist")
     public void oneSecurityAndTwoUsers(String securityName, String userName1, String userName2) {
-
+        logger.trace("Got securityName = \"{}\"; userName1 = \"{}\"; userName2 = \"{}\";",
+                securityName, userName1, userName2);
+        createSecurity(securityName);
+        createUser(userName1);
+        createUser(userName2);
     }
 
     @When("user {string} puts a {string} order for security {string} with a price of {double} and quantity of {long}")

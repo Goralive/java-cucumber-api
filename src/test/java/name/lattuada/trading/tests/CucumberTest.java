@@ -7,10 +7,10 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(plugin = {"pretty", "html:target/cucumber-reports"},
+@CucumberOptions(plugin = {"pretty", "html:target/cucumber-report.html"},
         features = "src/test/resources",
         monochrome = true,
-        glue = {"stepDefinitions"})
+        glue = {"name.lattuada.trading.tests.stepDefinitions"})
 
 @CucumberContextConfiguration
 //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
