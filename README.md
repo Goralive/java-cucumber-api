@@ -94,6 +94,11 @@ the [Swagger interface](http://localhost:8080/swagger-ui/).
    ```
    then open the HTML report located to `target/site/checkstyle.html`.
 
+## To run tests
+```shell
+mvn clean test
+```
+
 ## Report
 
 Cucumber report will be available under `target/cucumber-reports`
